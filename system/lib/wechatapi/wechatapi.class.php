@@ -293,7 +293,11 @@ class wechatapi
         
         $token = $this->getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=$token";
-        $this->post($url, $this->convertReply2JSON($this->reply));
+        $result = $this->post($url, $this->convertReply2JSON($this->reply));
+        $result = json_decode($result);
+
+        if(isset($result->errcode) and $result->errcode == 0) return array('result' => 'success');
+        return array('result' => 'fail' , 'message' => $result->errcode . ':' . $result->errmsg);
     }
 
     /**

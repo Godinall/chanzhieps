@@ -32,32 +32,13 @@
     </thead>
     <tbody>
       <?php foreach($messageList as $message):?>
-      <tr>
-        <td class='w-100px text-right'><?php echo $message->from;?></td>
-        <td><?php echo $message->content;?></td>
-        <td>
-          <?php
-          if($message->response == 'default')
-          {
-              echo $lang->wechat->response->default;
-          }
-          elseif($message->response == 'subscribe')
-          {
-              echo $lang->wechat->response->subscribe;
-          }
-          elseif(strpos($message->response, 'm_') !== false)
-          {
-              echo $message->content;
-          }
-          else
-          {
-              echo $lang->wechat->response->keywords . $lang->colon . $message->response;
-          }
-          ?>
-        </td>
+      <tr class='text-center'>
+        <td class='w-100px text-right'><?php echo $message->from . $lang->colon;?></td>
+        <td class='text-left'><?php echo $message->content;?></td>
+        <td><?php echo $message->response;?></td>
         <td><?php echo $lang->wechat->message->typeList[$message->type];?></td>
         <td><?php echo $message->time;?></td>
-        <td class='text-center'><?php echo html::a(inlink('reply', "public={$message->public}&to={$message->from}"), $lang->wechat->message->reply);?>
+        <td class='text-center'><?php echo html::a(inlink('reply', "message={$message->id}"), $lang->wechat->message->reply, "data-toggle=modal");?>
         </td>
       </tr>
       <?php endforeach;?>

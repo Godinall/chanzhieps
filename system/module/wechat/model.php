@@ -549,6 +549,23 @@ class wechatModel extends model
                 $message->content = $menus[$menuId]->name;
                 $message->content = $this->lang->wechat->message->menu . $this->lang->colon . $message->content;
             }
+
+            if($message->response == 'default')
+            {
+                $message->response = $this->lang->wechat->response->default;
+            }
+            elseif($message->response == 'subscribe')
+            {
+                $message->response = $this->lang->wechat->response->subscribe;
+            }
+            elseif(strpos($message->response, 'm_') !== false)
+            {
+                $message->response = $message->content;
+            }
+            else
+            {
+                $message->response = $this->lang->wechat->response->keywords . $this->lang->colon . $message->response;
+            }
         }
         return $messages;
     }

@@ -61,17 +61,27 @@ class wechat extends control
     /**
      * Reply a message.
      * 
-     * @param  int    $public 
-     * @param  int    $to 
+     * @param  int    $message 
      * @access public
      * @return void
      */
-    public function reply($public, $to)
+    public function reply($message)
     {
-        $this->setAPI($public);
-        $message = new stdclass();
-        $message->content = '你好';
-        $this->api->reply('o-nXYt1LrugCK0oqZcrxyMidiJSg', 'text', $message);
+        $message = $this->dao->select('*')->from(TABLE_WX_MESSAGE)->where('id')->eq($message)->fetch();
+        if(empty($message)) die();
+        $this->setAPI($message->public);
+
+        if($_POST)
+        {
+            $reply = new stdclass();
+            $reply->content = $this->post->content;
+            $result = $this->api->reply($message->from, 'text', $reply);
+            if($result['result'] == 'success') $this->send(array('result' => 'success', 'message' => $this->lang->sendSuccess, 'locate' => inlink('message')));
+            $this->send($result);
+        }
+
+        $this->view->message = $message;
+        $this->display();
     }
 
     /**
