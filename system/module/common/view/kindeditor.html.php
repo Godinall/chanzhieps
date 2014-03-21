@@ -63,7 +63,6 @@ function initKindeditor(afterInit)
         {
             width:'100%',
             items:editorTool,
-            filterMode:true, 
             cssPath:[v.themeRoot + 'zui/css/min.css'],
             bodyClass:'article-content',
             urlType:'absolute', 
