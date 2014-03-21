@@ -93,6 +93,7 @@ $lang->wechat->message->content  = '消息内容';
 $lang->wechat->message->response = '响应';
 $lang->wechat->message->menu     = '菜单';
 $lang->wechat->message->time     = '时间';
+$lang->wechat->message->reply    = '回复';
 
 $lang->wechat->message->list = '消息列表';
 

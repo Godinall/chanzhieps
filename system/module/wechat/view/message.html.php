@@ -23,19 +23,18 @@
   <table class='table table-hover table-striped tablesorter'>
     <thead>
       <tr class='text-center'>
-        <th class='w-100px'><?php echo $lang->wechat->message->from;?></th>
-        <th><?php echo $lang->wechat->message->content;?></th>
-        <th class='w-160px'><?php echo $lang->wechat->message->response;?></th>
+        <th colspan='2'><?php echo $lang->wechat->message->content;?></th>
+        <th><?php echo $lang->wechat->message->response;?></th>
         <th class='w-100px'><?php echo $lang->wechat->message->type;?></th>
-        <th class='w-100px'><?php echo $lang->wechat->message->status;?></th>
-        <th class='w-160px'><?php echo $lang->wechat->message->time;?></th>
+        <th class='w-200px'><?php echo $lang->wechat->message->time;?></th>
+        <th class='w-100px'><?php echo $lang->wechat->message->reply;?></th>
       </tr>
     </thead>
     <tbody>
       <?php foreach($messageList as $message):?>
-      <tr class='text-center'>
-        <td><?php echo $message->from;?></td>
-        <td><?php echo (strpos($message->response, 'm_') !== false ? $lang->wechat->message->menu. $lang->colon : '') . $message->content;?></td>
+      <tr>
+        <td class='w-100px text-right'><?php echo $message->from;?></td>
+        <td><?php echo $message->content;?></td>
         <td>
           <?php
           if($message->response == 'default')
@@ -57,8 +56,9 @@
           ?>
         </td>
         <td><?php echo $lang->wechat->message->typeList[$message->type];?></td>
-        <td><span class="btn-xs <?php echo $message->status == 'wait' ? 'btn btn-xs btn-warning' : '';?>"><?php echo $lang->wechat->message->statusList[$message->status];?></span></td>
         <td><?php echo $message->time;?></td>
+        <td class='text-center'><?php echo html::a(inlink('reply', "public={$message->public}&to={$message->from}"), $lang->wechat->message->reply);?>
+        </td>
       </tr>
       <?php endforeach;?>
     </tbody>

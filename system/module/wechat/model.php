@@ -533,11 +533,24 @@ class wechatModel extends model
      */
     public function getMessage($status, $orderBy, $pager = null)
     {
-        return $this->dao->select('*')->from(TABLE_WX_MESSAGE)
+        $messages = $this->dao->select('*')->from(TABLE_WX_MESSAGE)
             ->where('status')->eq($status)
             ->orderBy($orderBy)
             ->page($pager)
             ->fetchAll('id');
+
+        $menus = $this->dao->select('*')->from(TABLE_CATEGORY)->where('type')->like('wechat%')->fetchAll('id');
+
+        foreach($messages as $message)
+        {
+            if(strpos($message->response, 'm_') !== false)
+            {
+                $menuId = str_replace('m_', '', $message->response);
+                $message->content = $menus[$menuId]->name;
+                $message->content = $this->lang->wechat->message->menu . $this->lang->colon . $message->content;
+            }
+        }
+        return $messages;
     }
 
     /**
